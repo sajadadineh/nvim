@@ -8,7 +8,7 @@ vim.g.have_nerd_font = false
 -- [[ Setting options ]]
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.cmd 'colorscheme lunaperche'
+-- vim.cmd 'colorscheme lunaperche'
 
 vim.opt.mouse = 'a'
 
@@ -98,15 +98,16 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth',
 
-  require 'plugins.comment',
+  require 'plugins.hop',
   require 'plugins.gitsigns',
   require 'plugins.which-key',
   require 'plugins.telescope',
   require 'plugins.lspconfig',
   require 'plugins.autoformat',
   require 'plugins.autocompletion',
-  -- require 'plugins.colorscheme',
-  -- require 'plugins.commentColor',
+  require 'plugins.comment',
+  require 'plugins.colorscheme',
+  require 'plugins.commentColor',
   require 'plugins.mini',
   require 'plugins.treesitter',
   require 'plugins.debug',
