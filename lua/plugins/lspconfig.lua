@@ -17,9 +17,41 @@ return { -- LSP Configuration & Plugins
         end
 
         -- Jump to the definition of the word under your cursor.
-        vim.keymap.set('n', 'gd', function()
-          require('telescope.builtin').lsp_definitions { jump_type = 'tab' }
-        end, { desc = '[G]oto [D]efinition' })
+        local function goto_definition_in_tab()
+          local params = vim.lsp.util.make_position_params()
+          vim.lsp.buf_request(0, 'textDocument/definition', params, function(err, result, ctx, _)
+            if err or not result or vim.tbl_isempty(result) then
+              print 'Definition not found'
+              return
+            end
+
+            local def_uri = result[1].uri or result[1].targetUri
+            local def_path = vim.uri_to_fname(def_uri)
+            local found_tab = nil
+
+            -- Check if the buffer is already open in a tab
+            for _, tabnr in ipairs(vim.api.nvim_list_tabpages()) do
+              for _, winid in ipairs(vim.api.nvim_tabpage_list_wins(tabnr)) do
+                local bufnr = vim.api.nvim_win_get_buf(winid)
+                if vim.api.nvim_buf_get_name(bufnr) == def_path then
+                  found_tab = tabnr
+                  vim.api.nvim_set_current_tabpage(tabnr)
+                  vim.api.nvim_set_current_win(winid)
+                  vim.api.nvim_set_current_buf(bufnr)
+                  return
+                end
+              end
+            end
+
+            -- If not found, open in a new tab
+            if not found_tab then
+              vim.cmd('tabnew ' .. def_path)
+              vim.lsp.buf.definition()
+            end
+          end)
+        end
+
+        vim.keymap.set('n', 'gd', goto_definition_in_tab, { desc = '[G]oto [D]efinition' })
 
         -- Find references for the word under your cursor.
         map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -80,7 +112,6 @@ return { -- LSP Configuration & Plugins
       --
       -- But for many setups, the LSP (`tsserver`) will work just fine
       tsserver = {},
-
       lua_ls = {
         -- cmd = {...},
         -- filetypes = { ...},
