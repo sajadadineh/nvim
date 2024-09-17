@@ -27,6 +27,17 @@ return { -- LSP Configuration & Plugins
 
             local def_uri = result[1].uri or result[1].targetUri
             local def_path = vim.uri_to_fname(def_uri)
+
+            -- Try to get the position (line and character)
+            local def_pos = nil
+            if result[1].range then
+              def_pos = result[1].range.start
+            elseif result[1].targetRange then
+              def_pos = result[1].targetRange.start
+            elseif result[1].selectionRange then
+              def_pos = result[1].selectionRange.start
+            end
+
             local found_tab = nil
 
             -- Check if the buffer is already open in a tab
@@ -38,6 +49,12 @@ return { -- LSP Configuration & Plugins
                   vim.api.nvim_set_current_tabpage(tabnr)
                   vim.api.nvim_set_current_win(winid)
                   vim.api.nvim_set_current_buf(bufnr)
+
+                  -- If we have a valid position, move the cursor to that position
+                  if def_pos then
+                    vim.api.nvim_win_set_cursor(winid, { def_pos.line + 1, def_pos.character })
+                  end
+
                   return
                 end
               end
@@ -46,7 +63,10 @@ return { -- LSP Configuration & Plugins
             -- If not found, open in a new tab
             if not found_tab then
               vim.cmd('tabnew ' .. def_path)
-              vim.lsp.buf.definition()
+              -- Jump to the location using LSP utility
+              if def_pos then
+                vim.lsp.util.jump_to_location(result[1])
+              end
             end
           end)
         end
