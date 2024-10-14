@@ -38,6 +38,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     pcall(require('telescope').load_extension, 'ui-select')
 
     local builtin = require 'telescope.builtin'
+    vim.keymap.set('n', 'mh', builtin.marks, { desc = 'Show marks list with Telescope' })
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
     vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
@@ -47,12 +48,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]ind Recent [O]ld Files' })
-    -- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+    vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
     vim.keymap.set('n', '<leader>/', function()
       -- You can pass additional configuration to Telescope to change the theme, layout, etc.
       builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
         winblend = 10,
-        previewer = false,
+        previewer = true,
       })
     end, { desc = '[/] Fuzzily search in current buffer' })
 

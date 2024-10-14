@@ -8,7 +8,14 @@ vim.g.have_nerd_font = false
 -- [[ Setting options ]]
 vim.opt.number = true
 vim.opt.relativenumber = true
--- vim.cmd 'colorscheme lunaperche'
+vim.cmd [[
+try
+  colorscheme habamax 
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme default 
+  set background=dark
+endtry
+]]
 
 vim.opt.mouse = 'a'
 
@@ -48,10 +55,32 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- [[ confirm command ]]
+local confirm_commands = { 'qa' }
+
+local function confirm_before_quit(cmd)
+  if vim.tbl_contains(confirm_commands, cmd) then
+    local choice = vim.fn.confirm("Are you sure you want to execute '" .. cmd .. "'?", '&Yes\n&No', 2)
+    if choice == 1 then
+      vim.cmd(cmd)
+    end
+  else
+    vim.cmd(cmd)
+  end
+end
+
+vim.api.nvim_create_user_command('QA', function()
+  confirm_before_quit 'qa'
+end, {})
+
+-- Replace qa with QA completely
+vim.cmd 'cmap qa QA'
+-- [[ confirm command ]]
 
 -- [[ Basic Keymaps ]]
 
@@ -106,8 +135,8 @@ require('lazy').setup({
   require 'plugins.autoformat',
   require 'plugins.autocompletion',
   require 'plugins.comment',
-  require 'plugins.colorscheme',
-  require 'plugins.commentColor',
+  -- require 'plugins.colorscheme',
+  -- require 'plugins.commentColor',
   require 'plugins.mini',
   require 'plugins.treesitter',
   require 'plugins.debug',
