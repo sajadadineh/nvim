@@ -65,7 +65,7 @@ local confirm_commands = { 'qa' }
 
 local function confirm_before_quit(cmd)
   if vim.tbl_contains(confirm_commands, cmd) then
-    local choice = vim.fn.confirm("Are you sure you want to execute '" .. cmd .. "'?", '&Yes\n&No', 2)
+    local choice = vim.fn.confirm("Do you even know what kind of shit you're getting yourself into <" .. cmd .. '>?', '&Yeah\n&Nah', 2)
     if choice == 1 then
       vim.cmd(cmd)
     end
@@ -81,6 +81,10 @@ end, {})
 -- Replace qa with QA completely
 vim.cmd 'cmap qa QA'
 -- [[ confirm command ]]
+
+-- [[ alies command ]]
+vim.cmd 'cmap ex Ex'
+-- [[ alies command ]]
 
 -- [[ Basic Keymaps ]]
 
