@@ -60,6 +60,17 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- [[ console.log ]]
+vim.api.nvim_set_keymap('n', '<leader>cl', ':lua AppendConsoleLog()<CR>', { noremap = true, silent = true })
+
+function AppendConsoleLog()
+  local line = 'console.log("******************************************************");'
+  local current_line = vim.api.nvim_win_get_cursor(0)[1]
+  vim.api.nvim_buf_set_lines(0, current_line, current_line, false, { line })
+end
+
+-- [[ console.log ]]
+
 -- [[ confirm command ]]
 local confirm_commands = { 'qa' }
 
