@@ -94,10 +94,16 @@ vim.cmd 'cmap qa QA'
 -- [[ confirm command ]]
 
 -- [[ alies command ]]
-vim.cmd 'cmap ex Ex'
+-- vim.cmd 'cmap ex Ex'
 -- [[ alies command ]]
 
 -- [[ Basic Keymaps ]]
+
+-- Open Oil
+-- vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.api.nvim_create_user_command("Ex", function()
+  vim.cmd("Oil")
+end, { desc = "Run Oil instead of :Ex" })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -142,6 +148,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth',
 
+  require 'plugins.oil',
   require 'plugins.hop',
   require 'plugins.gitsigns',
   require 'plugins.which-key',
