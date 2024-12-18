@@ -115,15 +115,32 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagn
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Terminal
 -- TODO: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.api.nvim_create_autocmd('TermOpen', {
+    group = vim.api.nvim_create_augroup('custom-terminal-open', {clear = true}),
+    callback = function ()
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+    vim.api.nvim_win_set_width(0, 85)
+    vim.api.nvim_buf_set_keymap(0, 't', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(0, 'n', 'i', 'i', { noremap = true, silent = true })
+    end
+})
+vim.keymap.set('n', '<space>st', function ()
+    vim.cmd.vnew()
+    vim.cmd.term()
+    vim.cmd('startinsert')
+end)
 
 -- Keybinds to make split navigation easier.
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Refresh setting
+vim.keymap.set('n', '<leader>rr', ':source $MYVIMRC<CR>', { noremap = true, silent = true })
 
 -- [[ Basic Autocommands ]]
 
