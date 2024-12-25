@@ -1,5 +1,6 @@
 return { -- Autoformat
   'stevearc/conform.nvim',
+  branch = "nvim-0.9", -- NOTIC: if update nvim version we must update this line
   lazy = false,
   keys = {
     {
