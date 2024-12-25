@@ -31,16 +31,16 @@ fi
 cp -r "$CURRENT_DIR/nvim" "$CONFIG_DIR"
 
 # Install ripgrep for searching
-echo "Installing ripgrep..."
-if command -v apt &>/dev/null; then
-  apt update && apt install -y ripgrep
-elif command -v yum &>/dev/null; then
-  yum install -y ripgrep
-elif command -v pacman &>/dev/null; then
-  pacman -Sy --noconfirm ripgrep
-else
-  echo "Unsupported package manager. Please install ripgrep manually."
-fi
+# echo "Installing ripgrep..."
+# if command -v apt &>/dev/null; then
+#   apt update && apt install -y ripgrep
+# elif command -v yum &>/dev/null; then
+#   yum install -y ripgrep
+# elif command -v pacman &>/dev/null; then
+#   pacman -Sy --noconfirm ripgrep
+# else
+#   echo "Unsupported package manager. Please install ripgrep manually."
+# fi
 
 # Detect user shell and update PATH
 SHELL_NAME=$(basename "$SHELL")
