@@ -101,9 +101,9 @@ vim.cmd 'cmap qa QA'
 
 -- Open Oil
 -- vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-vim.api.nvim_create_user_command("Ex", function()
-  vim.cmd("Oil")
-end, { desc = "Run Oil instead of :Ex" })
+vim.api.nvim_create_user_command('Ex', function()
+  vim.cmd 'Oil'
+end, { desc = 'Run Oil instead of :Ex' })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -118,19 +118,19 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- Terminal
 -- TODO: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 vim.api.nvim_create_autocmd('TermOpen', {
-    group = vim.api.nvim_create_augroup('custom-terminal-open', {clear = true}),
-    callback = function ()
+  group = vim.api.nvim_create_augroup('custom-terminal-open', { clear = true }),
+  callback = function()
     vim.opt.number = false
     vim.opt.relativenumber = false
     vim.api.nvim_win_set_width(0, 85)
     vim.api.nvim_buf_set_keymap(0, 't', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(0, 'n', 'i', 'i', { noremap = true, silent = true })
-    end
+  end,
 })
-vim.keymap.set('n', '<space>st', function ()
-    vim.cmd.vnew()
-    vim.cmd.term()
-    vim.cmd('startinsert')
+vim.keymap.set('n', '<space>st', function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.cmd 'startinsert'
 end)
 
 -- Keybinds to make split navigation easier.
@@ -165,6 +165,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth',
 
+  require 'plugins.spectre',
   require 'plugins.oil',
   require 'plugins.hop',
   require 'plugins.gitsigns',
