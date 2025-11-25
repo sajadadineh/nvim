@@ -5,12 +5,13 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = false
 
+-- habamax
 -- [[ Setting options ]]
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.cmd [[
 try
-  colorscheme habamax 
+  colorscheme pablo 
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default 
   set background=dark
@@ -176,7 +177,7 @@ require('lazy').setup({
   require 'plugins.autocompletion',
   require 'plugins.comment',
   -- require 'plugins.colorscheme',
-  -- require 'plugins.commentColor',
+  require 'plugins.commentColor',
   require 'plugins.mini',
   require 'plugins.treesitter',
   require 'plugins.debug',
