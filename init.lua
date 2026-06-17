@@ -11,9 +11,9 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.cmd [[
 try
-  colorscheme pablo 
+  colorscheme pablo
 catch /^Vim\%((\a\+)\)\=:E185/
-  colorscheme default 
+  colorscheme default
   set background=dark
 endtry
 ]]
@@ -71,6 +71,36 @@ function AppendConsoleLog()
 end
 
 -- [[ console.log ]]
+
+-- [[ AI]]
+vim.keymap.set('n', '<leader>ai', function()
+  local buf = vim.api.nvim_create_buf(false, true)
+
+  local width = math.floor(vim.o.columns * 0.9)
+  local height = math.floor(vim.o.lines * 0.8)
+
+  local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+
+  local opts = {
+    style = 'minimal',
+    relative = 'editor',
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    border = 'rounded',
+    title = '***Artificial Intelligence***',
+    title_pos = 'center',
+  }
+
+  local win = vim.api.nvim_open_win(buf, true, opts)
+
+  vim.fn.termopen 'bob'
+
+  vim.cmd 'startinsert'
+end, { desc = 'Floating Codex' })
+--[[AI]]
 
 -- [[ confirm command ]]
 local confirm_commands = { 'qa' }
@@ -177,7 +207,7 @@ require('lazy').setup({
   require 'plugins.autocompletion',
   require 'plugins.comment',
   -- require 'plugins.colorscheme',
-  require 'plugins.commentColor',
+  -- require 'plugins.commentColor',
   require 'plugins.mini',
   require 'plugins.treesitter',
   require 'plugins.debug',
@@ -204,3 +234,9 @@ require('lazy').setup({
     },
   },
 })
+
+-- local codex = require 'config.codex'
+--
+-- vim.keymap.set('n', '<leader>ai', function()
+--   codex.toggle()
+-- end, { desc = 'Toggle Codex' })
