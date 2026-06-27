@@ -1,6 +1,7 @@
 return {
   {
     'stevearc/oil.nvim',
+    branch = 'nvim-0.9',
     ---@module 'oil'
     ---@type oil.SetupOpts
     opts = {
@@ -74,7 +75,7 @@ return {
       },
     },
     -- Optional dependencies
-    dependencies = { { 'echasnovski/mini.icons', opts = {} } },
+    dependencies = { { 'echasnovski/mini.icons', tag = 'v0.16.0', opts = {} } },
     -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   },
 }

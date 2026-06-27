@@ -1,9 +1,10 @@
 return { -- LSP Configuration & Plugins
   'neovim/nvim-lspconfig',
+  tag = 'v1.8.0',
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
+    { 'williamboman/mason.nvim', tag = 'v1.11.0' },
+    { 'williamboman/mason-lspconfig.nvim', tag = 'v1.32.0' },
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     { 'j-hui/fidget.nvim', opts = {} },
     { 'folke/neodev.nvim', opts = {} },

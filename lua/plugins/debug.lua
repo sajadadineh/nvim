@@ -3,8 +3,8 @@ return {
   dependencies = {
     'rcarriga/nvim-dap-ui',
     'nvim-neotest/nvim-nio',
-    'williamboman/mason.nvim',
-    'jay-babu/mason-nvim-dap.nvim',
+    { 'williamboman/mason.nvim', tag = 'v1.11.0' },
+    { 'jay-babu/mason-nvim-dap.nvim', tag = 'v1.2.2' },
     'leoluz/nvim-dap-go',
   },
   config = function()
