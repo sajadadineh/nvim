@@ -23,6 +23,7 @@ return { -- Autoformat
       }
     end,
     formatters_by_ft = {
+      go = { 'gofmt' },
       lua = { 'stylua' },
       javascript = { { 'prettierd', 'prettier' } },
       typescript = { 'prettier' },

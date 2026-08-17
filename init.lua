@@ -96,7 +96,7 @@ vim.keymap.set('n', '<leader>ai', function()
 
   local win = vim.api.nvim_open_win(buf, true, opts)
 
-  vim.fn.termopen 'codex'
+  vim.fn.termopen 'gapcode'
 
   vim.cmd 'startinsert'
 end, { desc = 'Floating AI' })
