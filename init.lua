@@ -119,6 +119,41 @@ end, { desc = 'Next error/warning todo comment' })
 
 -- JUMP COMMENT
 
+-- [[ Persian / RTL ]]
+-- Terminals (Warp included) do bidi for shell output, but NOT for the
+-- grid nvim draws itself, so Persian text shows in reversed order.
+-- Fix: let nvim draw the visual order itself (rightleft + arabicshape).
+local function is_farsi_buffer(bufnr)
+  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 200, false)
+  local text = table.concat(lines, ' ')
+  local fa, letters = 0, 0
+  for i = 0, vim.fn.strchars(text) - 1 do
+    local cp = vim.fn.strgetchar(text, i)
+    if (cp >= 0x0600 and cp <= 0x06FF) or (cp >= 0xFB50 and cp <= 0xFEFF) then
+      fa = fa + 1
+      letters = letters + 1
+    elseif (cp >= 0x41 and cp <= 0x5A) or (cp >= 0x61 and cp <= 0x7A) then
+      letters = letters + 1
+    end
+  end
+  return letters > 0 and fa / letters > 0.4
+end
+
+vim.api.nvim_create_autocmd('BufReadPost', {
+  desc = 'Show Persian files right-to-left',
+  group = vim.api.nvim_create_augroup('sajad-farsi-rtl', { clear = true }),
+  callback = function(args)
+    if is_farsi_buffer(args.buf) then
+      vim.api.nvim_set_option_value('rightleft', true, { win = args.win })
+    end
+  end,
+})
+
+vim.keymap.set('n', '<leader>fa', function()
+  vim.wo.rightleft = not vim.wo.rightleft
+end, { desc = '[F]arsi: toggle right-to-left display' })
+-- [[ Persian / RTL ]]
+
 -- [[ confirm command ]]
 local confirm_commands = { 'qa' }
 
